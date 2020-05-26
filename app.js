@@ -17,6 +17,7 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const { webhookCheckout } = require('./controllers/bookingController');
 
 const app = express();
 
@@ -48,6 +49,13 @@ const limiter = rateLimit({
 });
 
 app.use('/api', limiter);
+
+// before json parser
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'appilcation/json' }),
+  webhookCheckout
+);
 
 // middleware to get access to req body => body parser
 // data larger than 10kn wont be accepted
