@@ -7,7 +7,8 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
-const comprassion = require('compression');
+const compression = require('compression');
+const cors = require('cors');
 
 const appError = require('./utils/appError');
 const errorHandler = require('./controllers/errorController');
@@ -25,6 +26,12 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // Golbal MIDDLEWARES
+
+// implement cors
+app.use(cors());
+// for all routes => *
+app.options('*', cors());
+// app.options('/api/v1/tours/:id', cors())
 
 // Set security HTTP headers
 app.use(helmet());
@@ -54,7 +61,7 @@ app.use(mongoSanitize());
 // Data Sanitization against XSS
 app.use(xss());
 
-app.use(comprassion());
+app.use(compression());
 
 // prevent parameter pollution
 app.use(
