@@ -53,7 +53,7 @@ app.use('/api', limiter);
 // before json parser
 app.post(
   '/webhook-checkout',
-  express.raw({ type: 'appilcation/json' }),
+  express.raw({ type: 'application/json' }),
   webhookCheckout
 );
 
